@@ -20,7 +20,12 @@ public class JdbcService {
         dbConnection = connectionManager.getConnection();
     }
 
-
+    /**
+     * Inserts and entry in the database with the player names and their score.
+     * @param player1
+     * @param player2
+     * @param score
+     */
     public void addScore(String player1, String player2, int score) {
         try {
             String query = "INSERT INTO user(name, score) VALUES (?, ?)";

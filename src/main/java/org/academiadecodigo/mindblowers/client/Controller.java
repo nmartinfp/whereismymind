@@ -12,8 +12,6 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.academiadecodigo.mindblowers.constants.Constants;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,8 +25,7 @@ public class Controller implements Initializable {
 
     @FXML
     private Button btn1;
-    private Session session;
-
+    private Service service;
 
     private Stage stage;
 
@@ -50,17 +47,7 @@ public class Controller implements Initializable {
         btn1.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
     }
 
-    private void fading(Button btn) {
-        FadeTransition fadeIn = createFadeIn(btn1);
-        FadeTransition fadeOut = createFadeOut(btn1);
 
-        SequentialTransition fade = new SequentialTransition(
-                btn1,
-                fadeIn,
-                fadeOut
-        );
-        fade.play();
-    }
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -72,17 +59,23 @@ public class Controller implements Initializable {
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-
-                try {
-                    Socket socket = new Socket(Constants.SERVER_IP, Constants.SERVER_PORT);
-                    session = new Session(socket);
-                } catch (IOException e) {
-                    //TODO notify user
-                    e.printStackTrace();
-                }
+                service.connect();
             }
 
         });
+    }
+
+    //TODO util class - add button faders method
+    private void fading(Button btn) {
+        FadeTransition fadeIn = createFadeIn(btn1);
+        FadeTransition fadeOut = createFadeOut(btn1);
+
+        SequentialTransition fade = new SequentialTransition(
+                btn1,
+                fadeIn,
+                fadeOut
+        );
+        fade.play();
     }
 
     private FadeTransition createFadeIn(Node node) {

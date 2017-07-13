@@ -36,6 +36,10 @@ public class Server {
     }
 
 
+    /**
+     * Waits for 2 players to connect and instantiates a Runnable. Keeps repeating the process.
+     * @throws IOException
+     */
     private void start() throws IOException {
         ExecutorService threadPool = Executors.newCachedThreadPool();
 

@@ -13,19 +13,25 @@ import java.net.Socket;
 
 public class Session {
 
+    private static Session instance;
+
     private Socket socket;
     private BufferedInputStream input;
     private BufferedOutputStream output;
 
-    public Session(Socket socket) {
-        this.socket = socket;
-        try {
-            input = new BufferedInputStream(socket.getInputStream());
-            output = new BufferedOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            //TODO notify?
-            e.printStackTrace();
+    private Session() {
+    }
+
+    public static Session getInstance() {
+
+        if (instance == null) {
+            synchronized (Session.class) {
+                if (instance == null) {
+                    instance = new Session();
+                }
+            }
         }
+        return instance;
     }
 
     public BufferedInputStream getInput() {
@@ -34,5 +40,23 @@ public class Session {
 
     public BufferedOutputStream getOutput() {
         return output;
+    }
+
+    /**
+     * Instantiates input and output stream for the specified socket, only once.
+     *
+     * @param socket
+     */
+    public void setSocket(Socket socket) {
+        if (socket == null) {
+            this.socket = socket;
+            try {
+                input = new BufferedInputStream(socket.getInputStream());
+                output = new BufferedOutputStream(socket.getOutputStream());
+            } catch (IOException e) {
+                //TODO notify?
+                e.printStackTrace();
+            }
+        }
     }
 }
