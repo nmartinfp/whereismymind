@@ -12,8 +12,6 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.academiadecodigo.mindblowers.constants.Constants;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -30,6 +28,7 @@ public class Controller implements Initializable {
     private Session session;
     private SequentialTransition fade;
 
+    private Service service;
 
     private Stage stage;
 
@@ -91,14 +90,7 @@ public class Controller implements Initializable {
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-
-                try {
-                    Socket socket = new Socket(Constants.SERVER_IP, Constants.SERVER_PORT);
-                    session = new Session(socket);
-                } catch (IOException e) {
-                    //TODO notify user
-                    e.printStackTrace();
-                }
+                service.connect()
             }
 
         });

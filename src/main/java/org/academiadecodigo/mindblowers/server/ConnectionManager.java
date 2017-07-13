@@ -12,8 +12,13 @@ import java.sql.SQLException;
 
 public class ConnectionManager {
 
-    Connection connection = null;
+    private Connection connection = null;
 
+    /**
+     * Instantiates a connection to the specified database.
+     *
+     * @return the connection.
+     */
     public Connection getConnection() {
 
         final String JBDC_DATABASE = "jdbc:mysql://localhost:3306/mymind";
@@ -31,10 +36,11 @@ public class ConnectionManager {
             }
         }
         return connection;
-
     }
 
-
+    /**
+     * Closes the connection to the database.
+     */
     public void close() {
 
         if (connection != null) {
