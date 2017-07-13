@@ -27,14 +27,17 @@ public class Controller implements Initializable {
 
     @FXML
     private Button btn1;
+    private Session session;
 
 
     private Stage stage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btn1.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
-        btn1.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
+
+        //TODO remove
+        //  btn1.setLayoutX(Math.random() * 780);
+        // btn1.setLayoutY(Math.random() * 555);
         btn1.setStyle("-fx-background-radius: 5em;");
 
         // Button fading
@@ -72,8 +75,7 @@ public class Controller implements Initializable {
 
                 try {
                     Socket socket = new Socket(Constants.SERVER_IP, Constants.SERVER_PORT);
-                    //TODO set socket on session
-
+                    session = new Session(socket);
                 } catch (IOException e) {
                     //TODO notify user
                     e.printStackTrace();
