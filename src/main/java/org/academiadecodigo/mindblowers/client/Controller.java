@@ -23,14 +23,17 @@ public class Controller implements Initializable {
 
     @FXML
     private Button btn1;
+    private Session session;
 
 
     private Stage stage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btn1.setLayoutX(Math.random() * 780);
-        btn1.setLayoutY(Math.random() * 555);
+
+        //TODO remove
+        //  btn1.setLayoutX(Math.random() * 780);
+        // btn1.setLayoutY(Math.random() * 555);
         btn1.setStyle("-fx-background-radius: 5em;");
     }
 
@@ -38,8 +41,6 @@ public class Controller implements Initializable {
     void onMouseClick(MouseEvent event) {
         btn1.setLayoutX(Math.random() * 780);
         btn1.setLayoutY(Math.random() * 555);
-
-
     }
 
     public void setStage(Stage stage) {
@@ -55,8 +56,7 @@ public class Controller implements Initializable {
 
                 try {
                     Socket socket = new Socket("localhost", 8080); //TODO variable
-                    //TODO set socket on session
-
+                    session = new Session(socket);
                     System.out.println("connected"); //TODO remove sout
 
                 } catch (IOException e) {
