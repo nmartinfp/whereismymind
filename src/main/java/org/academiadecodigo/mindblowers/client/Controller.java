@@ -28,6 +28,7 @@ public class Controller implements Initializable {
     @FXML
     private Button btn1;
     private Session session;
+    private SequentialTransition fade;
 
 
     private Stage stage;
@@ -39,6 +40,7 @@ public class Controller implements Initializable {
         //  btn1.setLayoutX(Math.random() * 780);
         // btn1.setLayoutY(Math.random() * 555);
         btn1.setStyle("-fx-background-radius: 5em;");
+        btn1.setId("ego");
 
         // Button fading
         fading(btn1);
@@ -48,18 +50,35 @@ public class Controller implements Initializable {
     void onMouseClick(MouseEvent event) {
         btn1.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
         btn1.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
+        fade.jumpTo("start");
     }
 
     private void fading(Button btn) {
-        FadeTransition fadeIn = createFadeIn(btn1);
-        FadeTransition fadeOut = createFadeOut(btn1);
+        FadeTransition fadeOut = createFadeOut(btn);
 
-        SequentialTransition fade = new SequentialTransition(
-                btn1,
-                fadeIn,
+        Timeline blinker = createBlinker(btn);
+
+        fade = new SequentialTransition(
+                btn,
+                blinker,
                 fadeOut
         );
         fade.play();
+    }
+
+    private Timeline createBlinker(Node node) {
+        Timeline blink = new Timeline(
+                new KeyFrame(
+                        Duration.seconds(1),
+                        new KeyValue(
+                                node.opacityProperty(),
+                                1,
+                                Interpolator.DISCRETE
+                        )
+                )
+        );
+
+        return blink;
     }
 
     public void setStage(Stage stage) {
