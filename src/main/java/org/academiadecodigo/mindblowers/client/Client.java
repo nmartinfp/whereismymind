@@ -30,6 +30,7 @@ public class Client extends Application {
         ((Controller) loader.getController()).setStage(primaryStage);
 
         Scene scene = new Scene(root, primaryStage.getWidth(), primaryStage.getHeight());
+        scene.getStylesheets().add("/stylesheet/game.css");
 
         primaryStage.setScene(scene);
 
