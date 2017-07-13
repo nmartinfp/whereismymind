@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.academiadecodigo.mindblowers.constants.Constants;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -54,10 +55,8 @@ public class Controller implements Initializable {
             public void handle(WindowEvent event) {
 
                 try {
-                    Socket socket = new Socket("localhost", 8080); //TODO variable
+                    Socket socket = new Socket("localhost", Constants.SERVER_PORT);
                     //TODO set socket on session
-
-                    System.out.println("connected"); //TODO remove sout
 
                 } catch (IOException e) {
                     //TODO notify user
