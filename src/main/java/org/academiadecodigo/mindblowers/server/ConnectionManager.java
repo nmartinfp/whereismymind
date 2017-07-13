@@ -14,13 +14,16 @@ public class ConnectionManager {
 
     Connection connection = null;
 
-
     public Connection getConnection() {
+
+        final String JBDC_DATABASE = "jdbc:mysql://localhost:3306/mymind";
+        final String DB_USERNAME = "root";
+        final String DB_PASSWORD = "";
 
         if (connection == null) {
 
             try {
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mymind", "root", "");
+                connection = DriverManager.getConnection(JBDC_DATABASE, DB_USERNAME, DB_PASSWORD);
             } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println("Failure to connect to database : " + e.getMessage());

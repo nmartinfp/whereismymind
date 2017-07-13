@@ -1,5 +1,7 @@
 package org.academiadecodigo.mindblowers.server;
 
+import org.academiadecodigo.mindblowers.constants.Constants;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,7 +22,7 @@ public class Server {
 
         Server server;
         try {
-            server = new Server(8080); //TODO variable
+            server = new Server(Constants.SERVER_PORT);
             server.start();
         } catch (IOException e) {
             e.printStackTrace();
