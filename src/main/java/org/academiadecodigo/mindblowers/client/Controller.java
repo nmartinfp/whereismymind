@@ -43,14 +43,16 @@ public class Controller implements Initializable {
         btn1.setId("ego");
 
         // Button fading
-        fading(btn1);
+        //   fading(btn1);
     }
 
     @FXML
     void onMouseClick(MouseEvent event) {
         btn1.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
         btn1.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
-        fade.jumpTo("start");
+       // fade.jumpTo("start");
+
+        service.write("clicked");
     }
 
     private void fading(Button btn) {
@@ -91,7 +93,7 @@ public class Controller implements Initializable {
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                service.connect();
+                service.connect(Controller.this);
             }
 
         });

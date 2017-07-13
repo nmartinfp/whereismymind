@@ -18,6 +18,7 @@ public class Session {
     private PrintWriter output;
 
     private Session() {
+
     }
 
     public static Session getInstance() {
@@ -42,20 +43,19 @@ public class Session {
     }
 
     /**
-     * Instantiates input and output stream for the specified socket, only once.
+     * Instantiates input and output stream for the specified socket.
      *
      * @param socket
      */
     public void setSocket(Socket socket) {
-        if (socket == null) {
-            this.socket = socket;
-            try {
-                input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                output = new PrintWriter(socket.getOutputStream(),true);
-            } catch (IOException e) {
-                //TODO notify?
-                e.printStackTrace();
-            }
+        this.socket = socket;
+        try {
+            input = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+            output = new PrintWriter(this.socket.getOutputStream(), true);
+        } catch (IOException e) {
+            //TODO notify?
+            e.printStackTrace();
         }
     }
+
 }
