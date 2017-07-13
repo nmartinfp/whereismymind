@@ -27,7 +27,6 @@ public class Client extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW));
 
-
         Pane root = loader.load();
         ((Controller) loader.getController()).setStage(primaryStage);
 
