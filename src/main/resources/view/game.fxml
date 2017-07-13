@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane prefHeight="645.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.academiadecodigo.mindblowers.client.Controller">
+    <children>
+        <Button fx:id="btn1" layoutX="87.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="80.0" prefWidth="80.0">
+            
+        </Button>
+    </children>
+</Pane>

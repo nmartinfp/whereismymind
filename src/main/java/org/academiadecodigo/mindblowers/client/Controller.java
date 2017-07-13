@@ -1,7 +1,10 @@
 package org.academiadecodigo.mindblowers.client;
 
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -16,6 +19,11 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
+    @FXML
+    private Button btn1;
+
+
+
     private Stage stage;
 
     @Override
@@ -23,10 +31,16 @@ public class Controller implements Initializable {
 
     }
 
+    @FXML
+    void onMouseClick(MouseEvent event) {
+        btn1.setText("Clicked");
+        btn1.setDisable(true);
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
 
-        addListener();
+       // addListener();
     }
 
     private void addListener() {

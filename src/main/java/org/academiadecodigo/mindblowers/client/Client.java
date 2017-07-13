@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -25,11 +26,16 @@ public class Client extends Application {
         final String VIEW = "/view/game.fxml";
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW));
-        Parent root = loader.load();
 
+
+        Pane root = loader.load();
         ((Controller) loader.getController()).setStage(primaryStage);
 
         Scene scene = new Scene(root, primaryStage.getWidth(), primaryStage.getHeight());
+
+        primaryStage.setScene(scene);
+
+        primaryStage.show();
     }
 
 }
