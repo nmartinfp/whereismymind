@@ -5,6 +5,8 @@ package org.academiadecodigo.mindblowers.constants;
  */
 public class Constants {
 
-    public static final String SERVER_URL = "localhost";
+    public static final String SERVER_IP = "localhost";
     public static final int SERVER_PORT = 8080;
+    public static final int MAX_BUTTON_X = 780;
+    public static final int MAX_BUTTON_Y = 555;
 }
