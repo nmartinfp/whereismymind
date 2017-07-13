@@ -25,24 +25,27 @@ public class Controller implements Initializable {
     private Button btn1;
 
 
-
     private Stage stage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        btn1.setLayoutX(Math.random() * 780);
+        btn1.setLayoutY(Math.random() * 555);
+        btn1.setStyle("-fx-background-radius: 5em;");
     }
 
     @FXML
     void onMouseClick(MouseEvent event) {
-        btn1.setText("Clicked");
-        btn1.setDisable(true);
+        btn1.setLayoutX(Math.random() * 780);
+        btn1.setLayoutY(Math.random() * 555);
+
+
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
 
-       // addListener();
+        addListener();
     }
 
     private void addListener() {
