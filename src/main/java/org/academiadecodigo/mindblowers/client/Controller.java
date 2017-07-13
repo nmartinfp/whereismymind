@@ -35,6 +35,7 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        service = new Service();
         //TODO remove
         //  btn1.setLayoutX(Math.random() * 780);
         // btn1.setLayoutY(Math.random() * 555);
@@ -90,7 +91,7 @@ public class Controller implements Initializable {
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                service.connect()
+                service.connect();
             }
 
         });
