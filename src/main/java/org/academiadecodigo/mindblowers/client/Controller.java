@@ -8,6 +8,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,9 +49,19 @@ public class Controller implements Initializable {
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                ClientConnector clientConnector = new ClientConnector();
-                clientConnector.connect();
+
+                try {
+                    Socket socket = new Socket("localhost", 8080); //TODO variable
+                    //TODO set socket on session
+
+                    System.out.println("connected"); //TODO remove sout
+
+                } catch (IOException e) {
+                    //TODO notify user
+                    e.printStackTrace();
+                }
             }
+
         });
     }
 }

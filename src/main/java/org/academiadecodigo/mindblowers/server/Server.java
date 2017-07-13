@@ -20,13 +20,11 @@ public class Server {
 
         Server server;
         try {
-            server = new Server(8080);
+            server = new Server(8080); //TODO variable
             server.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private ServerSocket serverSocket;
@@ -50,8 +48,5 @@ public class Server {
 
             Arrays.fill(clients, null);
         }
-
-
-
     }
 }
