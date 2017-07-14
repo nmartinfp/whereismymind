@@ -13,12 +13,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -85,6 +87,8 @@ public class Controller implements Initializable {
     private Pane introPane;
     @FXML
     private Pane instructionsPane;
+    @FXML
+    private Label score;
 
     public int getPoints() {
         return points;
@@ -128,6 +132,11 @@ public class Controller implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+
+                score.setTextFill(Paint.valueOf("White"));
+                score.setVisible(true);
+                score.setText(((Integer) points).toString());
+
                 if (clicked.getId().equals(btn1.getId())) {
                     //own
                 } else {
@@ -234,7 +243,7 @@ public class Controller implements Initializable {
 
     public void setupButtons(boolean isEgo) {
 
-        String id = isEgo ? "ego" : "alterego";
+        String id = "ego";
 
         btn1.setId(id);
         playerButtons.put("btn1", btn1);
@@ -247,7 +256,7 @@ public class Controller implements Initializable {
         btn5.setId(id);
         playerButtons.put("btn5", btn5);
 
-        id = isEgo ? "alterego" : "ego";
+        id = "alterego";
 
         btn1Alt.setId(id);
         teammateButtons.put("btn1Alt", btn1Alt);
@@ -281,7 +290,6 @@ public class Controller implements Initializable {
 
         button.setLayoutX(x);
         button.setLayoutY(y);
-        // buttonLoader(button);
 
     }
 

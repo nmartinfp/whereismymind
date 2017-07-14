@@ -87,6 +87,7 @@ public class Game implements Runnable {
             synchronized (PrintWriter.class) {
                 write(Messages.EGO, message);
                 write(Messages.ALTEREGO, message);
+
             }
         }
 
