@@ -15,6 +15,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -44,6 +47,7 @@ public class Controller implements Initializable {
     private Map<String, Button> teammateButtons;
     private ButtonTimer buttonTimer;
     private BackgroundTimer backgroundTimer;
+    private AudioClip bubblePop;
 
     private int points;
 
@@ -89,6 +93,8 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        bubblePop = new AudioClip(getClass().getResource("/sfx/pop.mp3").toExternalForm());
+
         count[0] = 1;
         count[1] = 1;
         service = new Service();
@@ -111,6 +117,8 @@ public class Controller implements Initializable {
 
     @FXML
     void onMouseClick(MouseEvent event) {
+        bubblePop.play();
+
         Button clicked = ((Button) event.getSource());
 
         updatePoints(clicked.getId());
@@ -121,10 +129,11 @@ public class Controller implements Initializable {
             @Override
             public void run() {
                 if (clicked.getId().equals(btn1.getId())) {
-                    clicked.setVisible(false);
+                    //own
                 } else {
-                    clicked.setVisible(false);
+                    //other
                 }
+                clicked.setVisible(false);
                 String clickedName = findNameByButton(clicked);
                 service.write(Messages.REMOVE_BUBBLE + " " + clickedName);
                 checkButtons();
@@ -213,7 +222,6 @@ public class Controller implements Initializable {
     }
 
     public void hideBtn(String s) {
-
 
         Platform.runLater(new Runnable() {
             @Override

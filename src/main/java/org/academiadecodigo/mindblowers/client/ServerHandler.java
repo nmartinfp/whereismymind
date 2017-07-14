@@ -37,8 +37,6 @@ public class ServerHandler implements Runnable{
         String[] splittedString = message.split(" ");
         String serverMessage = splittedString[0];
 
-        System.out.println(message);
-
         if (serverMessage.equals(Messages.GAME_START)) {
             try {
                 controller.splashToIntro();
@@ -58,14 +56,12 @@ public class ServerHandler implements Runnable{
 
         if (serverMessage.equals(Messages.REMOVE_BUBBLE)) {
 
-            System.out.println(message);
-
             if (serverMessage.endsWith("Alt")) {
-                controller.hideBtn(splittedString[1]);
+                controller.hideBtn(splittedString[1].substring(0, splittedString[1].lastIndexOf('A')));
                 return;
             }
 
-            controller.hideBtn(splittedString[1] + "Alt");
+            controller.hideBtn(splittedString[1].concat("Alt"));
             return;
         }
 
