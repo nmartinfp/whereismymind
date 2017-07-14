@@ -4,6 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import org.academiadecodigo.mindblowers.constants.Constants;
 import org.academiadecodigo.mindblowers.constants.Messages;
 
 import java.io.*;
@@ -61,8 +62,6 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-
-
         new Thread(new PlayerHandler(this, bufferedReaders[0], Messages.EGO)).start();
         new Thread(new PlayerHandler(this, bufferedReaders[1], Messages.ALTEREGO)).start();
 
@@ -73,12 +72,37 @@ public class Game implements Runnable {
         pressed.addListener(pressedListener);
 
 
+        generateBubbles();
     }
 
-    public void endGame() {
-        isGameOver = true;
-    }
+    public void generateBubbles() {
 
+        for (int i = 0; i < Constants.MAX_BUBBLES; i++) {
+
+            int x = (int) (Math.random() * Constants.MAX_BUTTON_X);
+            int y = (int) (Math.random() * Constants.MAX_BUTTON_Y);
+
+            String message = Messages.NEW_BUBBLE + " " + Messages.EGO + " " + x + " " + y;
+
+            synchronized (PrintWriter.class) {
+                write(Messages.EGO, message);
+                write(Messages.ALTEREGO, message);
+            }
+        }
+
+        for (int i = 0; i < Constants.MAX_BUBBLES; i++) {
+
+            int x = (int) (Math.random() * Constants.MAX_BUTTON_X);
+            int y = (int) (Math.random() * Constants.MAX_BUTTON_Y);
+
+            String message = Messages.NEW_BUBBLE + " " + Messages.ALTEREGO + " " + x + " " + y;
+
+            synchronized (PrintWriter.class) {
+                write(Messages.EGO, message);
+                write(Messages.ALTEREGO, message);
+            }
+        }
+    }
 
     public void write(String playerName, String message) {
 

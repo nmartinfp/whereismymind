@@ -15,7 +15,6 @@ public class ServerHandler implements Runnable{
 
     private Controller controller;
 
-
     public ServerHandler(Controller controller) {
         this.controller = controller;
 
@@ -25,7 +24,7 @@ public class ServerHandler implements Runnable{
     public void run() {
         String message;
         try {
-            while ((message = Session.getInstance().getInput().readLine()) != null){
+            while ((message = Session.getInstance().getInput().readLine()) != null) {
                 parseString(message);
             }
         } catch (IOException e) {
@@ -57,19 +56,27 @@ public class ServerHandler implements Runnable{
             return;
         }
 
-        if (serverMessage.equals(Messages.REMOVE_BUBBLE)){
+        if (serverMessage.equals(Messages.REMOVE_BUBBLE)) {
+
+            System.out.println(message);
+
+            if (serverMessage.endsWith("Alt")) {
+                controller.hideBtn(splittedString[1]);
+                return;
+            }
+
             controller.hideBtn(splittedString[1] + "Alt");
+            return;
         }
 
         if (serverMessage.equals(Messages.PLAYERS_READY)) {
             controller.startGame();
+            return;
         }
 
-
-        System.out.println(serverMessage);
-
-
-
+        if (serverMessage.equals(Messages.NEW_BUBBLE)) {
+            controller.setupBubble(splittedString[1], Integer.parseInt(splittedString[2]), Integer.parseInt(splittedString[3]));
+        }
 
     }
 }

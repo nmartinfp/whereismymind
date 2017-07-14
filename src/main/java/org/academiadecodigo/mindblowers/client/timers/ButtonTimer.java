@@ -31,7 +31,6 @@ public class ButtonTimer {
         public void run() {
             button.setVisible(false);
             timer.cancel();
-            controller.getNextButton();
         }
     }
 

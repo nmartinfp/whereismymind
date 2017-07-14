@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,13 +40,12 @@ public class Controller implements Initializable {
     private SequentialTransition fade;
     private Service service;
     private Stage stage;
-    private Map<String, Button> buttonsEgo;
-    private Map<String, Button> buttonsAlt;
-    private int counter;
-    private Button currentButton;
+    private Map<String, Button> playerButtons;
+    private Map<String, Button> teammateButtons;
     private ButtonTimer buttonTimer;
     private BackgroundTimer backgroundTimer;
-    private boolean readyToPlay;
+
+    private int[] count = new int[2];
 
     @FXML
     private Pane gamePane;
@@ -81,15 +81,17 @@ public class Controller implements Initializable {
     private Pane instructionsPane;
 
 
-
     @Override
-    public void initialize(URL location, ResourceBundle resources)  {
+    public void initialize(URL location, ResourceBundle resources) {
 
+        count[0] = 1;
+        count[1] = 1;
         service = new Service();
-        buttonsEgo = new HashMap<>();
-        buttonsAlt = new HashMap<>();
-        counter = 0;
         scrollPane.setHmax(Constants.BACKGROUND_IMAGE_WIDTH - Constants.VIEWPANE_WIDTH);
+
+        playerButtons = new HashMap<>();
+        teammateButtons = new HashMap<>();
+
 
         //new SplashTimer(splashPane);
         try {
@@ -98,57 +100,41 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
-        currentButton = btn1;
-
-        buttonLoader();
-
         backgroundTimer = new BackgroundTimer(scrollPane);
     }
 
-    private void buttonLoader() {
-        currentButton.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
-        currentButton.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
-        fading(currentButton);
-        fade.jumpTo("start");
-        buttonTimer = new ButtonTimer(currentButton, this);
-    }
 
     @FXML
     void onMouseClick(MouseEvent event) {
-        buttonTimer.cancelTimer();
         Button clicked = ((Button) event.getSource());
 
-        if (clicked.getId().equals(btn1.getId())) {
-            System.out.println("clicked own");
-            return;
-        }
 
-        System.out.println("clicked other");
-
-        clicked.setVisible(false);
-        currentButton = clicked;
-        getNextButton();
-        currentButton.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
-        currentButton.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
-        fade.jumpTo("start");
-
-
-        String clickedName = findNameByButton(clicked);
-
-        service.write(Messages.REMOVE_BUBBLE + clickedName);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (clicked.getId().equals(btn1.getId())) {
+                    clicked.setVisible(false);
+                } else {
+                    clicked.setVisible(false);
+                }
+                String clickedName = findNameByButton(clicked);
+                service.write(Messages.REMOVE_BUBBLE + " " + clickedName);
+                checkButtons();
+            }
+        });
     }
 
     private String findNameByButton(Button clicked) {
 
         String clickedName;
 
-        for (Map.Entry<String, Button> entry : buttonsEgo.entrySet()) {
+        for (Map.Entry<String, Button> entry : playerButtons.entrySet()) {
             if (entry.getValue().equals(clicked)) {
                 clickedName = entry.getKey();
                 return clickedName;
             }
         }
-        for (Map.Entry<String, Button> entry : buttonsAlt.entrySet()) {
+        for (Map.Entry<String, Button> entry : teammateButtons.entrySet()) {
             if (entry.getValue().equals(clicked)) {
                 clickedName = entry.getKey();
                 return clickedName;
@@ -159,6 +145,7 @@ public class Controller implements Initializable {
 
     private void fading(Button btn) {
         FadeTransition fadeOut = createFadeOut(btn);
+
         Timeline blinker = createBlinker(btn);
 
         fade = new SequentialTransition(
@@ -166,6 +153,7 @@ public class Controller implements Initializable {
                 blinker,
                 fadeOut
         );
+
         fade.play();
     }
 
@@ -205,33 +193,16 @@ public class Controller implements Initializable {
         return fade;
     }
 
-    public void getNextButton() {
-
-        Iterator it = buttonsEgo.entrySet().iterator();
-
-        while (it.hasNext()) {
-            Map.Entry<String, Button> pair = (Map.Entry<String, Button>) it.next();
-            if (pair.getValue() == currentButton && it.hasNext()) {
-                currentButton = ((Map.Entry<String, Button>) it.next()).getValue();
-                System.out.println("new button " + currentButton);
-                break;
-            }
-            if (pair.getValue() == currentButton && !it.hasNext()) {
-                System.out.println("new button " + pair.getKey());
-                currentButton = buttonsEgo.get("btn1");
-                break;
-            }
-        }
-        currentButton.setVisible(true);
-        buttonLoader();
-    }
-
     public void hideBtn(String s) {
 
 
-        if (s.equals("btn1Alt")) {
-            buttonsAlt.get(s).setVisible(false);
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                teammateButtons.get(s).setVisible(false);
+            }
+        });
+
     }
 
     public void setupButtons(boolean isEgo) {
@@ -239,30 +210,74 @@ public class Controller implements Initializable {
         String id = isEgo ? "ego" : "alterego";
 
         btn1.setId(id);
-        buttonsEgo.put("btn1", btn1);
+        playerButtons.put("btn1", btn1);
         btn2.setId(id);
-        buttonsEgo.put("btn2", btn2);
+        playerButtons.put("btn2", btn2);
         btn3.setId(id);
-        buttonsEgo.put("btn3", btn3);
+        playerButtons.put("btn3", btn3);
         btn4.setId(id);
-        buttonsEgo.put("btn4", btn4);
+        playerButtons.put("btn4", btn4);
         btn5.setId(id);
-        buttonsEgo.put("btn5", btn5);
+        playerButtons.put("btn5", btn5);
 
         id = isEgo ? "alterego" : "ego";
 
         btn1Alt.setId(id);
-        buttonsAlt.put("btn1Alt", btn1Alt);
+        teammateButtons.put("btn1Alt", btn1Alt);
         btn2Alt.setId(id);
-        buttonsAlt.put("btn2Alt", btn2Alt);
+        teammateButtons.put("btn2Alt", btn2Alt);
         btn3Alt.setId(id);
-        buttonsAlt.put("btn3Alt", btn3Alt);
+        teammateButtons.put("btn3Alt", btn3Alt);
         btn4Alt.setId(id);
-        buttonsAlt.put("btn4Alt", btn4Alt);
+        teammateButtons.put("btn4Alt", btn4Alt);
         btn5Alt.setId(id);
-        buttonsAlt.put("btn5Alt", btn5Alt);
+        teammateButtons.put("btn5Alt", btn5Alt);
+    }
 
-        buttonLoader();
+    public void setupBubble(String id, int x, int y) {
+        final Button button;
+        if (id.equals(Messages.EGO)) {
+            button = playerButtons.get("btn" + count[0]);
+            count[0]++;
+            if (count[0] == Constants.MAX_BUBBLES + 1) {
+                count[0] = 1;
+            }
+        } else {
+            button = teammateButtons.get("btn" + count[1] + "Alt");
+            count[1]++;
+            if (count[1] == Constants.MAX_BUBBLES + 1) {
+                count[1] = 1;
+            }
+
+        }
+        button.setVisible(true);
+
+        button.setLayoutX(x);
+        button.setLayoutY(y);
+        // buttonLoader(button);
+
+    }
+
+    public void checkButtons() {
+
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                int count = 0;
+                for (Map.Entry<String, Button> entry : playerButtons.entrySet()) {
+
+                    if (!entry.getValue().isVisible()) {
+                        count++;
+                        if (count == Constants.MAX_BUBBLES) {
+                            service.write(Messages.BUBBLE_REQUEST);
+                        }
+                    }
+                }
+            }
+        });
+
+
     }
 
     public void splashToIntro() {
@@ -278,7 +293,6 @@ public class Controller implements Initializable {
     }
 
     public void onMouseClickStart(MouseEvent mouseEvent) {
-        readyToPlay = true;
         service.write(Messages.START_PRESSED);
         btnStart.setDisable(true);
     }
