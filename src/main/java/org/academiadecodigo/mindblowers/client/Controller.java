@@ -1,21 +1,30 @@
 package org.academiadecodigo.mindblowers.client;
 
 import javafx.animation.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.academiadecodigo.mindblowers.client.timers.BackgroundTimer;
 import org.academiadecodigo.mindblowers.client.timers.ButtonTimer;
+import org.academiadecodigo.mindblowers.client.timers.SplashTimer;
 import org.academiadecodigo.mindblowers.constants.Constants;
 import org.academiadecodigo.mindblowers.constants.Messages;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -36,7 +45,12 @@ public class Controller implements Initializable {
     private Button currentButton;
     private ButtonTimer buttonTimer;
     private BackgroundTimer backgroundTimer;
+    private boolean readyToPlay;
 
+    @FXML
+    private Pane gamePane;
+    @FXML
+    private Button btnStart;
     @FXML
     private Button btn1;
     @FXML
@@ -59,15 +73,30 @@ public class Controller implements Initializable {
     private Button btn5Alt;
     @FXML
     private ScrollPane scrollPane;
+    @FXML
+    private Pane splashPane;
+    @FXML
+    private Pane introPane;
+    @FXML
+    private Pane instructionsPane;
+
+
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)  {
 
         service = new Service();
         buttonsEgo = new HashMap<>();
         buttonsAlt = new HashMap<>();
         counter = 0;
         scrollPane.setHmax(Constants.BACKGROUND_IMAGE_WIDTH - Constants.VIEWPANE_WIDTH);
+
+        //new SplashTimer(splashPane);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         currentButton = btn1;
 
@@ -234,5 +263,32 @@ public class Controller implements Initializable {
         buttonsAlt.put("btn5Alt", btn5Alt);
 
         buttonLoader();
+    }
+
+    public void splashToIntro() {
+        splashPane.setVisible(false);
+        introPane.setVisible(true);
+    }
+
+    public void introToInstructions() throws InterruptedException {
+        Thread.sleep(2000);
+        introPane.setVisible(false);
+        instructionsPane.setVisible(true);
+
+    }
+
+    public void onMouseClickStart(MouseEvent mouseEvent) {
+        readyToPlay = true;
+        service.write(Messages.START_PRESSED);
+        btnStart.setDisable(true);
+    }
+
+
+    public void startGame() {
+        instructionsPane.setVisible(false);
+        instructionsPane.setDisable(true);
+        gamePane.setVisible(true);
+        scrollPane.setVisible(true);
+
     }
 }

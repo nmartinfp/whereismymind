@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 /**
  * Created by codecadet on 13/07/17.
  */
+
 public class PlayerHandler implements Runnable {
 
     private Game game;
@@ -36,12 +37,15 @@ public class PlayerHandler implements Runnable {
     }
 
     private void parseString(String message) {
-        String[] splittedString = message.split(" ");
+        String[] splitString = message.split(" ");
 
-        String clientMessage = splittedString[0];
+        String clientMessage = splitString[0];
 
         if (clientMessage.equals(Messages.REMOVE_BUBBLE)) {
             game.write(playerType, message);
+        }
+        if (clientMessage.equals(Messages.START_PRESSED)) {
+            game.addPlayer();
         }
 
     }

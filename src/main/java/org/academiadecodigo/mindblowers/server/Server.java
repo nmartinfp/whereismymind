@@ -50,7 +50,12 @@ public class Server {
             clients[0] = serverSocket.accept();
             clients[1] = serverSocket.accept();
 
-            threadPool.submit(new Game(clients));
+
+
+            Game game = new Game(clients);
+
+            threadPool.submit(game);
+
 
             System.out.println("New Game!");
 
