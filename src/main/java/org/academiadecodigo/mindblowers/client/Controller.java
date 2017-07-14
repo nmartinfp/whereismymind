@@ -13,9 +13,7 @@ import javafx.util.Duration;
 import org.academiadecodigo.mindblowers.constants.Constants;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Developed @ <Academia de Código_>
@@ -33,6 +31,7 @@ public class Controller implements Initializable {
     private final int MAX_BUTTONS = 2; //TODO decide max buttons final value
     private int counter;
     private Button currentButton;
+    private ButtonTimer buttonTimer;
 
     @FXML
     private Button btn1;
@@ -61,12 +60,7 @@ public class Controller implements Initializable {
         currentButton.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
         fading(currentButton);
         fade.jumpTo("start");
-        System.out.println("Opacity 1: " + currentButton.getOpacity());
-        if (currentButton.getOpacity() == 0.1) {
-            System.out.println("Opacity 2: " + currentButton.getOpacity());
-            getNextButton();
-            buttonLoader();
-        }
+        buttonTimer = new ButtonTimer(currentButton, this);
     }
 
     private void fillButtonList() {
@@ -80,6 +74,7 @@ public class Controller implements Initializable {
 
     @FXML
     void onMouseClick(MouseEvent event) {
+        buttonTimer.cancelTimer();
         currentButton.setVisible(false);
         getNextButton();
     }
