@@ -6,10 +6,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import org.academiadecodigo.mindblowers.client.timers.BackgroundTimer;
+import org.academiadecodigo.mindblowers.client.timers.ButtonTimer;
 import org.academiadecodigo.mindblowers.constants.Constants;
 
 import java.net.URL;
@@ -32,6 +35,7 @@ public class Controller implements Initializable {
     private int counter;
     private Button currentButton;
     private ButtonTimer buttonTimer;
+    private BackgroundTimer backgroundTimer;
 
     @FXML
     private Button btn1;
@@ -39,20 +43,23 @@ public class Controller implements Initializable {
     @FXML
     private Button btn2;
 
+    @FXML
+    private ScrollPane scrollPane;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         service = new Service();
         buttonList = new ArrayList<>();
         counter = 0;
+        scrollPane.setHmax(8000 - 860);
 
         fillButtonList();
         currentButton = buttonList.get(0);
 
         buttonLoader();
 
-        // Button fading
-        //fading(currentButton);
+        backgroundTimer = new BackgroundTimer(scrollPane);
     }
 
     private void buttonLoader() {
@@ -81,7 +88,6 @@ public class Controller implements Initializable {
 
     private void fading(Button btn) {
         FadeTransition fadeOut = createFadeOut(btn);
-
         Timeline blinker = createBlinker(btn);
 
         fade = new SequentialTransition(

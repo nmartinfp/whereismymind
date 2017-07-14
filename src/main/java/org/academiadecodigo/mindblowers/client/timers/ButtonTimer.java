@@ -1,6 +1,10 @@
-package org.academiadecodigo.mindblowers.client;
+package org.academiadecodigo.mindblowers.client.timers;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import org.academiadecodigo.mindblowers.client.Controller;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,6 +27,7 @@ public class ButtonTimer {
     }
 
     private class HideButton extends TimerTask {
+        @Override
         public void run() {
             button.setVisible(false);
             timer.cancel();
