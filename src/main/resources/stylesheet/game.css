@@ -11,3 +11,11 @@
 #paneBackground{
     -fx-background-image: url("/placeholder_ASSETS/bg_game.png")
 }
+
+#btnStart {
+    -fx-background-image: url("/placeholder_ASSETS/btn_start1.png");
+}
+
+#btnStart:hover {
+    -fx-background-image: url("/placeholder_ASSETS/btn_start2.png");
+}

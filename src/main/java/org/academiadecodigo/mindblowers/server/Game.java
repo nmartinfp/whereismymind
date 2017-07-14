@@ -1,5 +1,9 @@
 package org.academiadecodigo.mindblowers.server;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import org.academiadecodigo.mindblowers.constants.Constants;
 import org.academiadecodigo.mindblowers.constants.Messages;
 
@@ -17,13 +21,27 @@ public class Game implements Runnable {
     private Socket[] players;
     private BufferedReader[] bufferedReaders;
     private PrintWriter[] printerWriters;
+    private boolean isGameOver;
+    private int connectedPlayers;
+    private ObjectProperty<Integer> pressed = new SimpleObjectProperty<>();
+    private ChangeListener<Integer> pressedListener = new ChangeListener<Integer>() {
+        @Override
+        public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+            if (observable.getValue().equals(2)) {
+                write(Messages.EGO, Messages.PLAYERS_READY);
+                write(Messages.ALTEREGO, Messages.PLAYERS_READY);
+            }
+        }
+    };
 
     public Game(Socket[] players) {
         this.players = players;
         bufferedReaders = new BufferedReader[2];
         printerWriters = new PrintWriter[2];
+        isGameOver = false;
 
         try {
+
             populateArrays();
 
         } catch (IOException e) {
@@ -49,6 +67,10 @@ public class Game implements Runnable {
 
         write(Messages.EGO, Messages.EGO);
         write(Messages.ALTEREGO, Messages.ALTEREGO);
+        write(Messages.EGO, Messages.GAME_START);
+        write(Messages.ALTEREGO, Messages.GAME_START);
+        pressed.addListener(pressedListener);
+
 
         generateBubbles();
     }
@@ -91,5 +113,10 @@ public class Game implements Runnable {
 
         printerWriters[0].println(message);
 
+    }
+
+    public void addPlayer() {
+        connectedPlayers++;
+        pressed.setValue(connectedPlayers);
     }
 }

@@ -37,14 +37,18 @@ public class PlayerHandler implements Runnable {
     private void parseString(String message) {
         String[] splittedString = message.split(" ");
 
-
         String clientMessage = splittedString[0];
 
         if (clientMessage.equals(Messages.BUBBLE_REQUEST)) {
             game.generateBubbles();
+            return;
         }
         if (clientMessage.equals(Messages.REMOVE_BUBBLE)) {
             game.write(playerType, message);
+            return;
+        }
+        if (clientMessage.equals(Messages.START_PRESSED)) {
+            game.addPlayer();
         }
 
     }

@@ -1,26 +1,34 @@
 package org.academiadecodigo.mindblowers.client;
 
 import javafx.animation.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.academiadecodigo.mindblowers.client.timers.BackgroundTimer;
 import org.academiadecodigo.mindblowers.client.timers.ButtonTimer;
+import org.academiadecodigo.mindblowers.client.timers.SplashTimer;
 import org.academiadecodigo.mindblowers.constants.Constants;
 import org.academiadecodigo.mindblowers.constants.Messages;
 
-import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -44,6 +52,10 @@ public class Controller implements Initializable {
     private int[] count = new int[2];
 
     @FXML
+    private Pane gamePane;
+    @FXML
+    private Button btnStart;
+    @FXML
     private Button btn1;
     @FXML
     private Button btn2;
@@ -65,6 +77,13 @@ public class Controller implements Initializable {
     private Button btn5Alt;
     @FXML
     private ScrollPane scrollPane;
+    @FXML
+    private Pane splashPane;
+    @FXML
+    private Pane introPane;
+    @FXML
+    private Pane instructionsPane;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -78,6 +97,14 @@ public class Controller implements Initializable {
 
         playerButtons = new HashMap<>();
         teammateButtons = new HashMap<>();
+
+
+        //new SplashTimer(splashPane);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         backgroundTimer = new BackgroundTimer(scrollPane);
     }
@@ -213,8 +240,6 @@ public class Controller implements Initializable {
         teammateButtons.put("btn4Alt", btn4Alt);
         btn5Alt.setId(id);
         teammateButtons.put("btn5Alt", btn5Alt);
-
-        // buttonLoader(btn1);
     }
 
     public void setupBubble(String id, int x, int y) {
@@ -260,6 +285,32 @@ public class Controller implements Initializable {
             }
         });
 
+
+    }
+
+    public void splashToIntro() {
+        splashPane.setVisible(false);
+        introPane.setVisible(true);
+    }
+
+    public void introToInstructions() throws InterruptedException {
+        Thread.sleep(2000);
+        introPane.setVisible(false);
+        instructionsPane.setVisible(true);
+
+    }
+
+    public void onMouseClickStart(MouseEvent mouseEvent) {
+        service.write(Messages.START_PRESSED);
+        btnStart.setDisable(true);
+    }
+
+
+    public void startGame() {
+        instructionsPane.setVisible(false);
+        instructionsPane.setDisable(true);
+        gamePane.setVisible(true);
+        scrollPane.setVisible(true);
 
     }
 }
