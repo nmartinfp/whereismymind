@@ -1,6 +1,7 @@
 package org.academiadecodigo.mindblowers.client.timers;
 
 import javafx.scene.control.ScrollPane;
+import org.academiadecodigo.mindblowers.constants.Constants;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,25 +12,18 @@ import java.util.TimerTask;
 
 public class BackgroundTimer {
 
-    private Timer timer;
     private ScrollPane scrollPane;
-    private final int BACKGROUND_MOVE_SECONDS = 1;
 
     public BackgroundTimer(ScrollPane scrollPane) {
         this.scrollPane = scrollPane;
-        timer = new Timer();
-        timer.schedule(new MoveBackground(), 0, BACKGROUND_MOVE_SECONDS * 250);
+        Timer timer = new Timer();
+        timer.schedule(new MoveBackground(), 0, Constants.BACKGROUND_MOVE_MILLISECONDS);
     }
 
     private class MoveBackground extends TimerTask {
         @Override
         public void run() {
-            scrollPane.setHvalue(scrollPane.getHvalue() + 25);
-            //timer.cancel();
+            scrollPane.setHvalue(scrollPane.getHvalue() + Constants.BACKGROUND_MOVE_PIXELS);
         }
-    }
-
-    public void cancelTimer() {
-        timer.cancel();
     }
 }

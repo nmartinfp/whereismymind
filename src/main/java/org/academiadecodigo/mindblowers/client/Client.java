@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.Set;
+
 /**
  * Developed @ <Academia de Código_>
  * Created by
@@ -35,6 +37,12 @@ public class Client extends Application {
         primaryStage.setScene(scene);
 
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        Session.getInstance().closeSocket();
+        System.exit(0);
     }
 
 }

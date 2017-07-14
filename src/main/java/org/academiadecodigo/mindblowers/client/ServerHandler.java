@@ -33,15 +33,20 @@ public class ServerHandler implements Runnable{
         String[] splittedString = message.split(" ");
         String serverMessage = splittedString[0];
 
+        System.out.println(message);
+
         if (serverMessage.equals(Messages.EGO)) {
-            System.out.println("ego");
+            controller.setupButtons(true);
             return;
         }
         if (serverMessage.equals(Messages.ALTEREGO)) {
-            System.out.println("alterego");
+            controller.setupButtons(false);
             return;
         }
 
+        if (serverMessage.equals(Messages.REMOVE_BUBBLE)){
+            controller.hideBtn(splittedString[1] + "Alt");
+        }
         System.out.println(serverMessage);
 
 
