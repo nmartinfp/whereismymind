@@ -13,6 +13,8 @@ import javafx.util.Duration;
 import org.academiadecodigo.mindblowers.constants.Constants;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -23,47 +25,73 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    @FXML
-    private Button btn1;
-
-    @FXML
-    private Button btn1Alt;
-
     private Session session;
     private SequentialTransition fade;
 
     private Service service;
 
     private Stage stage;
+    private List<Button> buttonsEgo;
+    private List<Button> buttonsAlt;
+    private final int MAX_BUTTONS = 10; //TODO decide max buttons final value
+    private int counter;
+    private Button currentButton;
+
+    @FXML
+    private Button btn1;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         service = new Service();
-        //TODO make method to setup buttons
-        btn1.setLayoutX(Math.random() * 780);
-        btn1.setLayoutY(Math.random() * 555);
-        btn1.setStyle("-fx-background-radius: 5em;");
-        btn1.setId("ego");
+        buttonsEgo = new ArrayList<>();
+        buttonsAlt = new ArrayList<>();
+        counter = 0;
 
-        btn1Alt.setLayoutX(Math.random() * 780);
-        btn1Alt.setLayoutY(Math.random() * 555);
-        btn1Alt.setStyle("-fx-background-radius: 5em;");
-        btn1Alt.setId("alterego");
-
-
+        currentButton = btn1;
+        buttonsEgo.add(currentButton);
+        System.out.println( "added 1st " + buttonsEgo.size());
+        buttonLoader();
 
         // Button fading
-        //   fading(btn1);
+        //fading(currentButton);
+    }
+
+    private void buttonLoader() {
+        currentButton.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
+        currentButton.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
+        fading(currentButton);
+        fade.jumpTo("start");
+
+        if (currentButton.getOpacity() == 0.0) {
+            System.out.println("opacity is: " + currentButton.getOpacity());
+
+            currentButton.setDisable(true);
+            getNextButton();
+            buttonLoader();
+        }
     }
 
     @FXML
     void onMouseClick(MouseEvent event) {
-        btn1.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
-        btn1.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
-       // fade.jumpTo("start");
 
-        service.write("clicked btn1");
+        Button clicked = ((Button) event.getSource());
+        System.out.println("clicked on " + clicked);
+        System.out.println(buttonsEgo.get(0));
+
+        if (!clicked.getId().equals(buttonsEgo.get(0))) {
+            //TODO clicked on other player's button
+            return;
+        }
+
+        clicked.setVisible(false);
+        currentButton = clicked;
+        getNextButton();
+        currentButton.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
+        currentButton.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
+        // fade.jumpTo("start");
+
+        service.write("clicked " + Buttons.findIdByButton(clicked)); // TODO: 14/07/17 Change message to list position
     }
 
     private void fading(Button btn) {
@@ -76,8 +104,10 @@ public class Controller implements Initializable {
                 blinker,
                 fadeOut
         );
+
         fade.play();
     }
+
 
     private Timeline createBlinker(Node node) {
         Timeline blink = new Timeline(
@@ -110,14 +140,6 @@ public class Controller implements Initializable {
         });
     }
 
-    private FadeTransition createFadeIn(Node node) {
-        FadeTransition fade = new FadeTransition(Duration.seconds(2), node);
-        fade.setFromValue(0);
-        fade.setToValue(1);
-
-        return fade;
-    }
-
     private FadeTransition createFadeOut(Node node) {
         FadeTransition fade = new FadeTransition(Duration.seconds(2), node);
         fade.setFromValue(1);
@@ -126,10 +148,48 @@ public class Controller implements Initializable {
         return fade;
     }
 
-    public void hideBtn(String s) {
-        if(s.equals("btn1Alt")){
-            //btn1Alt.setDisable(true); Maybe this wont be needed
-            btn1Alt.setVisible(false);
+    public void getNextButton() {
+        counter++;
+        if (counter == MAX_BUTTONS / 2) {
+            counter = 0;
         }
+        currentButton = buttonsEgo.get(counter);
+        currentButton.setVisible(true);
+        buttonLoader();
+    }
+
+    public void hideBtn(String s) {
+        if (s.equals("btn1Alt")) {
+            //btn1Alt.setDisable(true); Maybe this wont be needed
+            Buttons.getBtnById(s).setVisible(false);
+        }
+    }
+
+    public void setupButtons(boolean isEgo) {
+
+        String id = isEgo ? "ego" : "alterego";
+        currentButton.setId(id);
+
+        List<Button> list = buttonsEgo;
+
+        for(int i = 0; i < Buttons.values().length; i++) {
+            if(i == MAX_BUTTONS/2 - 1){
+                isEgo = !isEgo;
+                list = buttonsAlt;
+            }
+            Button btn = Buttons.values()[i].getBtn();
+            id = isEgo ? "ego" : "alterego";
+
+            Buttons.setId(btn, id);
+            //btn.setId(id);
+            //buttonLoader(btn);
+
+            System.out.println("ego " +buttonsEgo.size() );
+            System.out.println("alt  " + buttonsAlt.size());
+
+            list.add(btn);
+         // System.out.println(btn.getId());
+        }
+
     }
 }

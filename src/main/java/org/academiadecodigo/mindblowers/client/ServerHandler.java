@@ -36,11 +36,11 @@ public class ServerHandler implements Runnable{
         System.out.println(message);
 
         if (serverMessage.equals(Messages.EGO)) {
-            System.out.println("ego");
+            controller.setupButtons(true);
             return;
         }
         if (serverMessage.equals(Messages.ALTEREGO)) {
-            System.out.println("alterego");
+            controller.setupButtons(false);
             return;
         }
 
