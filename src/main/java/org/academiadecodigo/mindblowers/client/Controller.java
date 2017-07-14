@@ -13,7 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
@@ -85,6 +87,14 @@ public class Controller implements Initializable {
     private Pane introPane;
     @FXML
     private Pane instructionsPane;
+    @FXML
+    private Pane gameEnd;
+    @FXML
+    private Label playerScore;
+    @FXML
+    private TextField nicknameField;
+    @FXML
+    private Button okButton;
 
 
     @Override
@@ -114,7 +124,7 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
-        backgroundTimer = new BackgroundTimer(scrollPane);
+        backgroundTimer = new BackgroundTimer(scrollPane, this);
     }
 
 
@@ -323,5 +333,9 @@ public class Controller implements Initializable {
             introAudio.stop();
         }
         gameAudio.play(0.7);
+    }
+
+    public void endGame() {
+
     }
 }
