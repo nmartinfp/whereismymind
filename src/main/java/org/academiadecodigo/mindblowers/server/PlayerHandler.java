@@ -39,7 +39,7 @@ public class PlayerHandler implements Runnable {
         String clientMessage = splittedString[0];
 
         if(clientMessage.equals("clicked")){
-            game.write(playerType, "clicked");
+            game.write(playerType, message);
         }
 
     }

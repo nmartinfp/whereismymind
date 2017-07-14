@@ -25,6 +25,10 @@ public class Controller implements Initializable {
 
     @FXML
     private Button btn1;
+
+    @FXML
+    private Button btn1Alt;
+
     private Session session;
     private SequentialTransition fade;
 
@@ -36,11 +40,18 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         service = new Service();
-        //TODO remove
-        //  btn1.setLayoutX(Math.random() * 780);
-        // btn1.setLayoutY(Math.random() * 555);
+        //TODO make method to setup buttons
+        btn1.setLayoutX(Math.random() * 780);
+        btn1.setLayoutY(Math.random() * 555);
         btn1.setStyle("-fx-background-radius: 5em;");
         btn1.setId("ego");
+
+        btn1Alt.setLayoutX(Math.random() * 780);
+        btn1Alt.setLayoutY(Math.random() * 555);
+        btn1Alt.setStyle("-fx-background-radius: 5em;");
+        btn1Alt.setId("alterego");
+
+
 
         // Button fading
         //   fading(btn1);
@@ -52,7 +63,7 @@ public class Controller implements Initializable {
         btn1.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
        // fade.jumpTo("start");
 
-        service.write("clicked");
+        service.write("clicked btn1");
     }
 
     private void fading(Button btn) {
@@ -113,5 +124,12 @@ public class Controller implements Initializable {
         fade.setToValue(0);
 
         return fade;
+    }
+
+    public void hideBtn(String s) {
+        if(s.equals("btn1Alt")){
+            //btn1Alt.setDisable(true); Maybe this wont be needed
+            btn1Alt.setVisible(false);
+        }
     }
 }

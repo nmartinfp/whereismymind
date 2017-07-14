@@ -33,6 +33,8 @@ public class ServerHandler implements Runnable{
         String[] splittedString = message.split(" ");
         String serverMessage = splittedString[0];
 
+        System.out.println(message);
+
         if (serverMessage.equals(Messages.EGO)) {
             System.out.println("ego");
             return;
@@ -42,6 +44,9 @@ public class ServerHandler implements Runnable{
             return;
         }
 
+        if (serverMessage.equals("clicked")){
+            controller.hideBtn(splittedString[1] + "Alt");
+        }
         System.out.println(serverMessage);
 
 
