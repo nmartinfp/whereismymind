@@ -16,13 +16,13 @@
             <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="645.0" prefWidth="860.0" vbarPolicy="NEVER">
                <content>
                   <Pane fx:id="paneBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="645.0" prefWidth="8000.0" stylesheets="@../stylesheet/game.css">
-                      <children>
+                     <children>
                         <ImageView fx:id="bgImage" fitHeight="645.0" fitWidth="8000.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../placeholder_ASSETS/bg.png" />
                            </image>
                         </ImageView>
-                      </children>
+                     </children>
                   </Pane>
                </content>
             </ScrollPane>
@@ -33,16 +33,21 @@
                         <Image url="@../placeholder_ASSETS/fish.png" />
                      </image>
                   </ImageView>
-                   <Button fx:id="btn1" layoutX="87.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="true" />
-                   <Button fx:id="btn2" layoutX="88.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
-                   <Button fx:id="btn3" layoutX="89.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
-                   <Button fx:id="btn4" layoutX="90.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
-                   <Button fx:id="btn5" layoutX="91.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
-                   <Button fx:id="btn1Alt" layoutX="92.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="true" />
-                   <Button fx:id="btn2Alt" layoutX="93.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
-                   <Button fx:id="btn3Alt" layoutX="94.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
-                   <Button fx:id="btn4Alt" layoutX="95.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
-                   <Button fx:id="btn5Alt" layoutX="96.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
+                  <Button fx:id="btn1" layoutX="87.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="true" />
+                  <Button fx:id="btn2" layoutX="88.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
+                  <Button fx:id="btn3" layoutX="89.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
+                  <Button fx:id="btn4" layoutX="90.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
+                  <Button fx:id="btn5" layoutX="91.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
+                  <Button fx:id="btn1Alt" layoutX="92.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="true" />
+                  <Button fx:id="btn2Alt" layoutX="93.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
+                  <Button fx:id="btn3Alt" layoutX="94.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
+                  <Button fx:id="btn4Alt" layoutX="95.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
+                  <Button fx:id="btn5Alt" layoutX="96.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false" />
+                  <Label fx:id="score" layoutX="21.0" layoutY="13.0" text="0" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
          </children>
