@@ -47,6 +47,8 @@ public class Controller implements Initializable {
     private Map<String, Button> teammateButtons;
     private ButtonTimer buttonTimer;
     private BackgroundTimer backgroundTimer;
+    private AudioClip introAudio;
+    private AudioClip gameAudio;
     private AudioClip bubblePop;
 
     private int[] count = new int[2];
@@ -87,6 +89,12 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        introAudio = new AudioClip(getClass().getResource("/sfx/intro_song.mp3").toExternalForm());
+        introAudio.setCycleCount(AudioClip.INDEFINITE);
+        introAudio.play();
+
+        gameAudio = new AudioClip(getClass().getResource("/sfx/game_song.mp3").toExternalForm());
 
         bubblePop = new AudioClip(getClass().getResource("/sfx/pop.mp3").toExternalForm());
 
@@ -311,6 +319,9 @@ public class Controller implements Initializable {
         instructionsPane.setDisable(true);
         gamePane.setVisible(true);
         scrollPane.setVisible(true);
-
+        if (introAudio.isPlaying()) {
+            introAudio.stop();
+        }
+        gameAudio.play(0.7);
     }
 }
