@@ -1,6 +1,7 @@
 package org.academiadecodigo.mindblowers.client;
 
 import javafx.scene.control.Button;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,9 +14,10 @@ public class ButtonTimer {
     private Timer timer;
     private Button button;
     private Controller controller;
-    private final int BUTTON_SHOW_SECONDS = 3;
+
 
     public ButtonTimer(Button button, Controller controller) {
+        final int BUTTON_SHOW_SECONDS = 3;
         this.button = button;
         this.controller = controller;
         timer = new Timer();
@@ -26,7 +28,7 @@ public class ButtonTimer {
         public void run() {
             button.setVisible(false);
             timer.cancel();
-            controller.getNextButton();
+            controller.checkButtons();
         }
     }
 

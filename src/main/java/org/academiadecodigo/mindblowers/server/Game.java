@@ -1,5 +1,6 @@
 package org.academiadecodigo.mindblowers.server;
 
+import org.academiadecodigo.mindblowers.constants.Constants;
 import org.academiadecodigo.mindblowers.constants.Messages;
 
 import java.io.*;
@@ -16,17 +17,13 @@ public class Game implements Runnable {
     private Socket[] players;
     private BufferedReader[] bufferedReaders;
     private PrintWriter[] printerWriters;
-    private boolean isGameOver;
-
 
     public Game(Socket[] players) {
         this.players = players;
         bufferedReaders = new BufferedReader[2];
         printerWriters = new PrintWriter[2];
-        isGameOver = false;
 
         try {
-
             populateArrays();
 
         } catch (IOException e) {
@@ -53,14 +50,39 @@ public class Game implements Runnable {
         write(Messages.EGO, Messages.EGO);
         write(Messages.ALTEREGO, Messages.ALTEREGO);
 
+        generateBubbles();
     }
 
-    public void endGame(){
-        isGameOver = true;
+    public void generateBubbles() {
+
+        for (int i = 0; i < Constants.MAX_BUBBLES; i++) {
+
+            int x = (int) (Math.random() * Constants.MAX_BUTTON_X);
+            int y = (int) (Math.random() * Constants.MAX_BUTTON_Y);
+
+            String message = Messages.NEW_BUBBLE + " " + Messages.EGO + " " + x + " " + y;
+
+            synchronized (PrintWriter.class) {
+                write(Messages.EGO, message);
+                write(Messages.ALTEREGO, message);
+            }
+        }
+
+        for (int i = 0; i < Constants.MAX_BUBBLES; i++) {
+
+            int x = (int) (Math.random() * Constants.MAX_BUTTON_X);
+            int y = (int) (Math.random() * Constants.MAX_BUTTON_Y);
+
+            String message = Messages.NEW_BUBBLE + " " + Messages.ALTEREGO + " " + x + " " + y;
+
+            synchronized (PrintWriter.class) {
+                write(Messages.EGO, message);
+                write(Messages.ALTEREGO, message);
+            }
+        }
     }
 
-
-    public void write(String playerName, String message){
+    public void write(String playerName, String message) {
 
         if (playerName.equals("ego")) {
             printerWriters[1].println(message);

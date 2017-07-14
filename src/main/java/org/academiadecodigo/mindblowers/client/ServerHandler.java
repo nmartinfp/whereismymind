@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * Created by codecadet on 13/07/17.
  */
-public class ServerHandler implements Runnable{
+public class ServerHandler implements Runnable {
 
     private Controller controller;
 
@@ -20,7 +20,7 @@ public class ServerHandler implements Runnable{
     public void run() {
         String message;
         try {
-            while ((message = Session.getInstance().getInput().readLine()) != null){
+            while ((message = Session.getInstance().getInput().readLine()) != null) {
                 parseString(message);
             }
         } catch (IOException e) {
@@ -33,8 +33,6 @@ public class ServerHandler implements Runnable{
         String[] splittedString = message.split(" ");
         String serverMessage = splittedString[0];
 
-        System.out.println(message);
-
         if (serverMessage.equals(Messages.EGO)) {
             controller.setupButtons(true);
             return;
@@ -44,11 +42,21 @@ public class ServerHandler implements Runnable{
             return;
         }
 
-        if (serverMessage.equals(Messages.REMOVE_BUBBLE)){
-            controller.hideBtn(splittedString[1] + "Alt");
-        }
-        System.out.println(serverMessage);
+        if (serverMessage.equals(Messages.REMOVE_BUBBLE)) {
 
+            System.out.println(message);
+
+            if (serverMessage.endsWith("Alt")) {
+                controller.hideBtn(splittedString[1]);
+                return;
+            }
+
+            controller.hideBtn(splittedString[1] + "Alt");
+            return;
+        }
+        if (serverMessage.equals(Messages.NEW_BUBBLE)) {
+            controller.setupBubble(splittedString[1], Integer.parseInt(splittedString[2]), Integer.parseInt(splittedString[3]));
+        }
 
     }
 }

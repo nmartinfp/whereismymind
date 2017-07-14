@@ -9,4 +9,5 @@ public class Constants {
     public static final int SERVER_PORT = 8080;
     public static final int MAX_BUTTON_X = 780;
     public static final int MAX_BUTTON_Y = 555;
+    public static final int MAX_BUBBLES = 5;
 }

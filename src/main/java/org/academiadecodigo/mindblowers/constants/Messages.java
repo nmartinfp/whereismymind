@@ -9,5 +9,6 @@ public class Messages {
     public static final String REMOVE_BUBBLE = "removebubble";
     public static final String EGO = "ego";
     public static final String ALTEREGO = "alterego";
+    public static final String BUBBLE_REQUEST = "buttonrequest";
 
 }
