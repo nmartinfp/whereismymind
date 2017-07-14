@@ -13,6 +13,8 @@ import javafx.util.Duration;
 import org.academiadecodigo.mindblowers.constants.Constants;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -23,33 +25,63 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    @FXML
-    private Button btn1;
     private Session session;
     private SequentialTransition fade;
-
     private Service service;
-
     private Stage stage;
+    private List<Button> buttonList;
+    private final int MAX_BUTTONS = 2; //TODO decide max buttons final value
+    private int counter;
+    private Button currentButton;
+
+    @FXML
+    private Button btn1;
+
+    @FXML
+    private Button btn2;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //TODO remove
-        //  btn1.setLayoutX(Math.random() * 780);
-        // btn1.setLayoutY(Math.random() * 555);
-        btn1.setStyle("-fx-background-radius: 5em;");
-        btn1.setId("ego");
+        service = new Service();
+        buttonList = new ArrayList<>();
+        counter = 0;
+
+        fillButtonList();
+        currentButton = buttonList.get(0);
+
+        buttonLoader();
 
         // Button fading
-        fading(btn1);
+        //fading(currentButton);
+    }
+
+    private void buttonLoader() {
+        currentButton.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
+        currentButton.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
+        fading(currentButton);
+        fade.jumpTo("start");
+        System.out.println("Opacity 1: " + currentButton.getOpacity());
+        if (currentButton.getOpacity() == 0.1) {
+            System.out.println("Opacity 2: " + currentButton.getOpacity());
+            getNextButton();
+            buttonLoader();
+        }
+    }
+
+    private void fillButtonList() {
+        btn1.setId("ego");
+        btn2.setId("ego");
+        btn1.setText("1");
+        btn2.setText("2");
+        buttonList.add(btn1);
+        buttonList.add(btn2);
     }
 
     @FXML
     void onMouseClick(MouseEvent event) {
-        btn1.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
-        btn1.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
-        fade.jumpTo("start");
+        currentButton.setVisible(false);
+        getNextButton();
     }
 
     private void fading(Button btn) {
@@ -76,13 +108,11 @@ public class Controller implements Initializable {
                         )
                 )
         );
-
         return blink;
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
-
         addListener();
     }
 
@@ -90,18 +120,9 @@ public class Controller implements Initializable {
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                service.connect()
+                service.connect();
             }
-
         });
-    }
-
-    private FadeTransition createFadeIn(Node node) {
-        FadeTransition fade = new FadeTransition(Duration.seconds(2), node);
-        fade.setFromValue(0);
-        fade.setToValue(1);
-
-        return fade;
     }
 
     private FadeTransition createFadeOut(Node node) {
@@ -110,5 +131,15 @@ public class Controller implements Initializable {
         fade.setToValue(0);
 
         return fade;
+    }
+
+    public void getNextButton() {
+        counter++;
+        if (counter == MAX_BUTTONS) {
+            counter = 0;
+        }
+        currentButton = buttonList.get(counter);
+        currentButton.setVisible(true);
+        buttonLoader();
     }
 }
