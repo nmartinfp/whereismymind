@@ -23,6 +23,8 @@ public class Game implements Runnable {
     private PrintWriter[] printerWriters;
     private boolean isGameOver;
     private int connectedPlayers;
+    private String teamName;
+    private int score;
     private ObjectProperty<Integer> pressed = new SimpleObjectProperty<>();
     private ChangeListener<Integer> pressedListener = new ChangeListener<Integer>() {
         @Override
@@ -118,5 +120,16 @@ public class Game implements Runnable {
     public void addPlayer() {
         connectedPlayers++;
         pressed.setValue(connectedPlayers);
+    }
+
+    public void addScore(String playerType, String nickname, int score) {
+        if (teamName == null) {
+            teamName = nickname;
+            this.score = score;
+            return;
+        }
+        teamName += " & " + nickname;
+        this.score += score;
+        new JdbcService().addScore(teamName, this.score);
     }
 }

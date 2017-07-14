@@ -27,7 +27,7 @@ public class BackgroundTimer {
         @Override
         public void run() {
             scrollPane.setHvalue(scrollPane.getHvalue() + Constants.BACKGROUND_MOVE_PIXELS);
-            if (scrollPane.getHmax() == 8000) {
+            if (scrollPane.getHvalue() == scrollPane.getHmax()) {
                 controller.endGame();
             }
         }

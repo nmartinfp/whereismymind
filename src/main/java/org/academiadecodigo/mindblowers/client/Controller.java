@@ -129,7 +129,7 @@ public class Controller implements Initializable {
 
 
     @FXML
-    void onMouseClick(MouseEvent event) {
+    private void onMouseClick(MouseEvent event) {
         bubblePop.play();
 
         Button clicked = ((Button) event.getSource());
@@ -149,6 +149,12 @@ public class Controller implements Initializable {
                 checkButtons();
             }
         });
+    }
+
+    @FXML
+    private void onOkButtonClick(MouseEvent event) {
+        String nickname = nicknameField.getText();
+        service.write(Messages.SCORE + " " + nickname + " " + points);
     }
 
     private String findNameByButton(Button clicked) {
@@ -336,6 +342,7 @@ public class Controller implements Initializable {
     }
 
     public void endGame() {
-
+        gamePane.setVisible(false);
+        gameEnd.setVisible(true);
     }
 }

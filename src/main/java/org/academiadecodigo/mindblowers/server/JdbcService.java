@@ -21,16 +21,15 @@ public class JdbcService {
 
     /**
      * Inserts and entry in the database with the player names and their score.
-     * @param player1
-     * @param player2
+     * @param team
      * @param score
      */
-    public void addScore(String player1, String player2, int score) {
+    public void addScore(String team, int score) {
         try {
             String query = "INSERT INTO user(name, score) VALUES (?, ?)";
 
             PreparedStatement statement = dbConnection.prepareStatement(query);
-            statement.setString(1, (player1 + " & " + player2));
+            statement.setString(1, team);
             statement.setInt(2, score);
             statement.executeUpdate();
 
@@ -41,13 +40,13 @@ public class JdbcService {
         }
     }
 
-    public int findTeamByName(String player1, String player2) {
+    public int findTeamByName(String team) {
 
         try {
             String query = "SELECT id FROM user WHERE name = ?";
 
             PreparedStatement statement = dbConnection.prepareStatement(query);
-            statement.setString(1, (player1 + " & " + player2));
+            statement.setString(1, team);
 
             ResultSet resultSet = statement.executeQuery();
 

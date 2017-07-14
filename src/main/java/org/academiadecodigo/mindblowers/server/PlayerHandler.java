@@ -49,6 +49,11 @@ public class PlayerHandler implements Runnable {
         }
         if (clientMessage.equals(Messages.START_PRESSED)) {
             game.addPlayer();
+            return;
+        }
+        if (clientMessage.equals(Messages.START_PRESSED)) {
+            game.addScore(playerType, splittedString[1], Integer.parseInt(splittedString[2]));
+            return;
         }
 
     }
