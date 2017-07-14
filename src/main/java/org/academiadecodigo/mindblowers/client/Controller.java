@@ -120,7 +120,7 @@ public class Controller implements Initializable {
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                service.connect();
+                service.connect(Controller.this);
             }
         });
     }

@@ -1,8 +1,6 @@
 package org.academiadecodigo.mindblowers.client;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -16,10 +14,11 @@ public class Session {
     private static Session instance;
 
     private Socket socket;
-    private BufferedInputStream input;
-    private BufferedOutputStream output;
+    private BufferedReader input;
+    private PrintWriter output;
 
     private Session() {
+
     }
 
     public static Session getInstance() {
@@ -34,29 +33,29 @@ public class Session {
         return instance;
     }
 
-    public BufferedInputStream getInput() {
+
+    public BufferedReader getInput() {
         return input;
     }
 
-    public BufferedOutputStream getOutput() {
+    public PrintWriter getOutput() {
         return output;
     }
 
     /**
-     * Instantiates input and output stream for the specified socket, only once.
+     * Instantiates input and output stream for the specified socket.
      *
      * @param socket
      */
     public void setSocket(Socket socket) {
-        if (socket == null) {
-            this.socket = socket;
-            try {
-                input = new BufferedInputStream(socket.getInputStream());
-                output = new BufferedOutputStream(socket.getOutputStream());
-            } catch (IOException e) {
-                //TODO notify?
-                e.printStackTrace();
-            }
+        this.socket = socket;
+        try {
+            input = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+            output = new PrintWriter(this.socket.getOutputStream(), true);
+        } catch (IOException e) {
+            //TODO notify?
+            e.printStackTrace();
         }
     }
+
 }

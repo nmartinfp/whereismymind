@@ -1,6 +1,10 @@
 #ego {
-    -fx-background-image: url("/placeholder_ASSETS/btn_alterego.png");
     -fx-background-radius: 5em;
+    -fx-background-image: url("/placeholder_ASSETS/btn_ego.png");
+}
+
+#alterego {
+    -fx-background-image: url("/placeholder_ASSETS/btn_alterego.png")
 }
 
 #paneBackground{
