@@ -129,10 +129,11 @@ public class Controller implements Initializable {
             @Override
             public void run() {
                 if (clicked.getId().equals(btn1.getId())) {
-                    clicked.setVisible(false);
+                    //own
                 } else {
-                    clicked.setVisible(false);
+                    //other
                 }
+                clicked.setVisible(false);
                 String clickedName = findNameByButton(clicked);
                 service.write(Messages.REMOVE_BUBBLE + " " + clickedName);
                 checkButtons();
@@ -210,7 +211,6 @@ public class Controller implements Initializable {
     }
 
     public void hideBtn(String s) {
-
 
         Platform.runLater(new Runnable() {
             @Override
