@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="paneBackground" prefHeight="645.0" prefWidth="860.0" stylesheets="@../stylesheet/game.css"
-      xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.academiadecodigo.mindblowers.client.Controller">
-    <children>
-        <Button fx:id="btn1" layoutX="87.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0"
-                prefWidth="60.0" visible="true"/>
-        <Button fx:id="btn2" layoutX="88.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0"
-                prefWidth="60.0" visible="false"/>
-        <Button fx:id="btn3" layoutX="89.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0"
-                prefWidth="60.0" visible="false"/>
-        <Button fx:id="btn4" layoutX="90.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0"
-                prefWidth="60.0" visible="false"/>
-        <Button fx:id="btn5" layoutX="91.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0"
-                prefWidth="60.0" visible="false"/>
-        <Button fx:id="btn1Alt" layoutX="92.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0"
-                prefWidth="60.0" visible="true"/>
-        <Button fx:id="btn2Alt" layoutX="93.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0"
-                prefWidth="60.0" visible="false"/>
-        <Button fx:id="btn3Alt" layoutX="94.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0"
-                prefWidth="60.0" visible="false"/>
-        <Button fx:id="btn4Alt" layoutX="95.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0"
-                prefWidth="60.0" visible="false"/>
-        <Button fx:id="btn5Alt" layoutX="96.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0"
-                prefWidth="60.0" visible="false"/>
-    </children>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="645.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.academiadecodigo.mindblowers.client.Controller">
+   <children>
+      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="645.0" prefWidth="860.0" vbarPolicy="NEVER">
+         <content>
+            <Pane fx:id="paneBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="645.0" prefWidth="8000.0" stylesheets="@../stylesheet/game.css">
+                <children>
+                  <ImageView fx:id="bgImage" fitHeight="645.0" fitWidth="8000.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/placeholder_ASSETS/bg.png" />
+                     </image>
+                  </ImageView>
+                </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="645.0" prefWidth="860.0">
+         <children>
+             <Button fx:id="btn1" layoutX="87.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="true"/>
+             <Button fx:id="btn2" layoutX="88.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false"/>
+             <Button fx:id="btn3" layoutX="89.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false"/>
+             <Button fx:id="btn4" layoutX="90.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false"/>
+             <Button fx:id="btn5" layoutX="91.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false"/>
+             <Button fx:id="btn1Alt" layoutX="92.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="true"/>
+             <Button fx:id="btn2Alt" layoutX="93.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false"/>
+             <Button fx:id="btn3Alt" layoutX="94.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false"/>
+             <Button fx:id="btn4Alt" layoutX="95.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false"/>
+             <Button fx:id="btn5Alt" layoutX="96.0" layoutY="112.0" onMouseClicked="#onMouseClick" prefHeight="60.0" prefWidth="60.0" visible="false"/>
+         </children>
+      </Pane>
+   </children>
 </Pane>

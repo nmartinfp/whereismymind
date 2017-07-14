@@ -7,10 +7,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import org.academiadecodigo.mindblowers.client.timers.BackgroundTimer;
+import org.academiadecodigo.mindblowers.client.timers.ButtonTimer;
 import org.academiadecodigo.mindblowers.constants.Constants;
 import org.academiadecodigo.mindblowers.constants.Messages;
 
@@ -31,6 +34,7 @@ public class Controller implements Initializable {
     private Map<String, Button> playerButtons;
     private Map<String, Button> teammateButtons;
     private ButtonTimer buttonTimer;
+    private BackgroundTimer backgroundTimer;
 
     private int[] count = new int[2];
 
@@ -54,6 +58,8 @@ public class Controller implements Initializable {
     private Button btn4Alt;
     @FXML
     private Button btn5Alt;
+    @FXML
+    private ScrollPane scrollPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,9 +67,13 @@ public class Controller implements Initializable {
         count[0] = 1;
         count[1] = 1;
         service = new Service();
+        scrollPane.setHmax(Constants.BACKGROUND_IMAGE_WIDTH - Constants.VIEWPANE_WIDTH);
+
         playerButtons = new HashMap<>();
         teammateButtons = new HashMap<>();
 
+
+        backgroundTimer = new BackgroundTimer(scrollPane);
     }
 
 
@@ -107,8 +117,6 @@ public class Controller implements Initializable {
     }
 
     private void fading(Button btn) {
-
-
         FadeTransition fadeOut = createFadeOut(btn);
 
         Timeline blinker = createBlinker(btn);
@@ -120,8 +128,6 @@ public class Controller implements Initializable {
         );
 
         fade.play();
-
-
     }
 
     private Timeline createBlinker(Node node) {
@@ -135,13 +141,11 @@ public class Controller implements Initializable {
                         )
                 )
         );
-
         return blink;
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
-
         addListener();
     }
 
@@ -164,7 +168,6 @@ public class Controller implements Initializable {
 
     public void hideBtn(String s) {
 
-        System.out.println("removing " + s);
 
         Platform.runLater(new Runnable() {
             @Override
