@@ -9,6 +9,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -17,6 +20,7 @@ import org.academiadecodigo.mindblowers.client.timers.ButtonTimer;
 import org.academiadecodigo.mindblowers.constants.Constants;
 import org.academiadecodigo.mindblowers.constants.Messages;
 
+import java.io.File;
 import java.net.URL;
 import java.util.*;
 
@@ -35,6 +39,7 @@ public class Controller implements Initializable {
     private Map<String, Button> teammateButtons;
     private ButtonTimer buttonTimer;
     private BackgroundTimer backgroundTimer;
+    private AudioClip bubblePop;
 
     private int[] count = new int[2];
 
@@ -64,6 +69,8 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        bubblePop = new AudioClip(getClass().getResource("/sfx/pop.mp3").toExternalForm());
+
         count[0] = 1;
         count[1] = 1;
         service = new Service();
@@ -72,13 +79,14 @@ public class Controller implements Initializable {
         playerButtons = new HashMap<>();
         teammateButtons = new HashMap<>();
 
-
         backgroundTimer = new BackgroundTimer(scrollPane);
     }
 
 
     @FXML
     void onMouseClick(MouseEvent event) {
+        bubblePop.play();
+
         Button clicked = ((Button) event.getSource());
 
 
