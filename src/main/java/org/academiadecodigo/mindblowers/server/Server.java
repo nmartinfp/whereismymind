@@ -52,6 +52,8 @@ public class Server {
 
             threadPool.submit(new Game(clients));
 
+            System.out.println("New Game!");
+
             Arrays.fill(clients, null);
         }
     }

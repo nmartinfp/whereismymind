@@ -58,4 +58,16 @@ public class Session {
         }
     }
 
+
+    public void closeSocket() {
+
+        try {
+            socket.close();
+        } catch (IOException e) {
+            // TODO: 14/07/2017 - exception
+            e.printStackTrace();
+        }
+
+    }
+
 }
