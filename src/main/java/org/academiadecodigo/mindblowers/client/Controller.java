@@ -370,6 +370,12 @@ public class Controller implements Initializable {
     public void endGame() {
         gamePane.setVisible(false);
         gameEnd.setVisible(true);
-        playerScore.setText(score.getText());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                playerScore.setText(score.getText());
+
+            }
+        });
     }
 }
