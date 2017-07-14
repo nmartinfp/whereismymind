@@ -11,11 +11,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.academiadecodigo.mindblowers.constants.Constants;
+import org.academiadecodigo.mindblowers.constants.Messages;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Developed @ <Academia de Código_>
@@ -31,30 +30,44 @@ public class Controller implements Initializable {
     private Service service;
 
     private Stage stage;
-    private List<Button> buttonsEgo;
-    private List<Button> buttonsAlt;
+    private Map<String, Button> buttonsEgo;
+    private Map<String, Button> buttonsAlt;
     private final int MAX_BUTTONS = 10; //TODO decide max buttons final value
     private int counter;
     private Button currentButton;
+    private ButtonTimer buttonTimer;
 
     @FXML
     private Button btn1;
+    @FXML
+    private Button btn2;
+    @FXML
+    private Button btn3;
+    @FXML
+    private Button btn4;
+    @FXML
+    private Button btn5;
+    @FXML
+    private Button btn1Alt;
+    @FXML
+    private Button btn2Alt;
+    @FXML
+    private Button btn3Alt;
+    @FXML
+    private Button btn4Alt;
+    @FXML
+    private Button btn5Alt;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         service = new Service();
-        buttonsEgo = new ArrayList<>();
-        buttonsAlt = new ArrayList<>();
+        buttonsEgo = new HashMap<>();
+        buttonsAlt = new HashMap<>();
         counter = 0;
 
         currentButton = btn1;
-        buttonsEgo.add(currentButton);
-        System.out.println( "added 1st " + buttonsEgo.size());
-        buttonLoader();
 
-        // Button fading
-        //fading(currentButton);
     }
 
     private void buttonLoader() {
@@ -62,36 +75,51 @@ public class Controller implements Initializable {
         currentButton.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
         fading(currentButton);
         fade.jumpTo("start");
-
-        if (currentButton.getOpacity() == 0.0) {
-            System.out.println("opacity is: " + currentButton.getOpacity());
-
-            currentButton.setDisable(true);
-            getNextButton();
-            buttonLoader();
-        }
+        buttonTimer = new ButtonTimer(currentButton, this);
     }
 
     @FXML
     void onMouseClick(MouseEvent event) {
-
+        buttonTimer.cancelTimer();
         Button clicked = ((Button) event.getSource());
-        System.out.println("clicked on " + clicked);
-        System.out.println(buttonsEgo.get(0));
 
-        if (!clicked.getId().equals(buttonsEgo.get(0))) {
-            //TODO clicked on other player's button
+        if (clicked.getId().equals(btn1.getId())) {
+            System.out.println("clicked own");
             return;
         }
+
+        System.out.println("clicked other");
 
         clicked.setVisible(false);
         currentButton = clicked;
         getNextButton();
         currentButton.setLayoutX(Math.random() * Constants.MAX_BUTTON_X);
         currentButton.setLayoutY(Math.random() * Constants.MAX_BUTTON_Y);
-        // fade.jumpTo("start");
+        fade.jumpTo("start");
 
-        service.write("clicked " + Buttons.findIdByButton(clicked)); // TODO: 14/07/17 Change message to list position
+
+        String clickedName = findNameByButton(clicked);
+
+        service.write(Messages.REMOVE_BUBBLE + clickedName);
+    }
+
+    private String findNameByButton(Button clicked) {
+
+        String clickedName;
+
+        for (Map.Entry<String, Button> entry : buttonsEgo.entrySet()) {
+            if (entry.getValue().equals(clicked)) {
+                clickedName = entry.getKey();
+                return clickedName;
+            }
+        }
+        for (Map.Entry<String, Button> entry : buttonsAlt.entrySet()) {
+            if (entry.getValue().equals(clicked)) {
+                clickedName = entry.getKey();
+                return clickedName;
+            }
+        }
+        return null;
     }
 
     private void fading(Button btn) {
@@ -107,7 +135,6 @@ public class Controller implements Initializable {
 
         fade.play();
     }
-
 
     private Timeline createBlinker(Node node) {
         Timeline blink = new Timeline(
@@ -136,7 +163,6 @@ public class Controller implements Initializable {
             public void handle(WindowEvent event) {
                 service.connect(Controller.this);
             }
-
         });
     }
 
@@ -149,47 +175,62 @@ public class Controller implements Initializable {
     }
 
     public void getNextButton() {
-        counter++;
-        if (counter == MAX_BUTTONS / 2) {
-            counter = 0;
+
+        Iterator it = buttonsEgo.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry<String, Button> pair = (Map.Entry<String, Button>) it.next();
+            if (pair.getValue() == currentButton && it.hasNext()) {
+                currentButton = ((Map.Entry<String, Button>) it.next()).getValue();
+                System.out.println("new button " + currentButton);
+                break;
+            }
+            if (pair.getValue() == currentButton && !it.hasNext()) {
+                System.out.println("new button " + pair.getKey());
+                currentButton = buttonsEgo.get("btn1");
+                break;
+            }
         }
-        currentButton = buttonsEgo.get(counter);
         currentButton.setVisible(true);
         buttonLoader();
     }
 
     public void hideBtn(String s) {
+
+
         if (s.equals("btn1Alt")) {
-            //btn1Alt.setDisable(true); Maybe this wont be needed
-            Buttons.getBtnById(s).setVisible(false);
+            buttonsAlt.get(s).setVisible(false);
         }
     }
 
     public void setupButtons(boolean isEgo) {
 
         String id = isEgo ? "ego" : "alterego";
-        currentButton.setId(id);
 
-        List<Button> list = buttonsEgo;
+        btn1.setId(id);
+        buttonsEgo.put("btn1", btn1);
+        btn2.setId(id);
+        buttonsEgo.put("btn2", btn2);
+        btn3.setId(id);
+        buttonsEgo.put("btn3", btn3);
+        btn4.setId(id);
+        buttonsEgo.put("btn4", btn4);
+        btn5.setId(id);
+        buttonsEgo.put("btn5", btn5);
 
-        for(int i = 0; i < Buttons.values().length; i++) {
-            if(i == MAX_BUTTONS/2 - 1){
-                isEgo = !isEgo;
-                list = buttonsAlt;
-            }
-            Button btn = Buttons.values()[i].getBtn();
-            id = isEgo ? "ego" : "alterego";
+        id = isEgo ? "alterego" : "ego";
 
-            Buttons.setId(btn, id);
-            //btn.setId(id);
-            //buttonLoader(btn);
+        btn1Alt.setId(id);
+        buttonsAlt.put("btn1Alt", btn1Alt);
+        btn2Alt.setId(id);
+        buttonsAlt.put("btn2Alt", btn2Alt);
+        btn3Alt.setId(id);
+        buttonsAlt.put("btn3Alt", btn3Alt);
+        btn4Alt.setId(id);
+        buttonsAlt.put("btn4Alt", btn4Alt);
+        btn5Alt.setId(id);
+        buttonsAlt.put("btn5Alt", btn5Alt);
 
-            System.out.println("ego " +buttonsEgo.size() );
-            System.out.println("alt  " + buttonsAlt.size());
-
-            list.add(btn);
-         // System.out.println(btn.getId());
-        }
-
+        buttonLoader();
     }
 }

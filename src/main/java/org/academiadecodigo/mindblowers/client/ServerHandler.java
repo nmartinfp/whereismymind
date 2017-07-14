@@ -44,7 +44,7 @@ public class ServerHandler implements Runnable{
             return;
         }
 
-        if (serverMessage.equals("clicked")){
+        if (serverMessage.equals(Messages.REMOVE_BUBBLE)){
             controller.hideBtn(splittedString[1] + "Alt");
         }
         System.out.println(serverMessage);

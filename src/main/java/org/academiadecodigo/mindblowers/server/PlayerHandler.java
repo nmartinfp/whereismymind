@@ -1,5 +1,7 @@
 package org.academiadecodigo.mindblowers.server;
 
+import org.academiadecodigo.mindblowers.constants.Messages;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,9 +16,9 @@ public class PlayerHandler implements Runnable {
     private String playerType;
 
     public PlayerHandler(Game game, BufferedReader bufferedReader, String playerType) {
-       this.game = game;
-       this.bufferedReader = bufferedReader;
-       this.playerType = playerType;
+        this.game = game;
+        this.bufferedReader = bufferedReader;
+        this.playerType = playerType;
 
     }
 
@@ -24,7 +26,7 @@ public class PlayerHandler implements Runnable {
     public void run() {
         String message;
         try {
-            while ((message = bufferedReader.readLine()) != null){
+            while ((message = bufferedReader.readLine()) != null) {
                 parseString(message);
             }
         } catch (IOException e) {
@@ -38,7 +40,7 @@ public class PlayerHandler implements Runnable {
 
         String clientMessage = splittedString[0];
 
-        if(clientMessage.equals("clicked")){
+        if (clientMessage.equals(Messages.REMOVE_BUBBLE)) {
             game.write(playerType, message);
         }
 
