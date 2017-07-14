@@ -15,5 +15,4 @@ public class Constants {
     public static final int VIEWPANE_WIDTH = 860;
     public static final int BACKGROUND_MOVE_MILLISECONDS = 88;
     public static final int BACKGROUND_MOVE_PIXELS = 3;
-
 }
