@@ -45,6 +45,8 @@ public class Controller implements Initializable {
     private ButtonTimer buttonTimer;
     private BackgroundTimer backgroundTimer;
 
+    private int points;
+
     private int[] count = new int[2];
 
     @FXML
@@ -80,6 +82,9 @@ public class Controller implements Initializable {
     @FXML
     private Pane instructionsPane;
 
+    public int getPoints() {
+        return points;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,6 +113,9 @@ public class Controller implements Initializable {
     void onMouseClick(MouseEvent event) {
         Button clicked = ((Button) event.getSource());
 
+        updatePoints(clicked.getId());
+
+        System.out.println(findNameByButton(clicked) + " points: " + points);
 
         Platform.runLater(new Runnable() {
             @Override
@@ -122,6 +130,17 @@ public class Controller implements Initializable {
                 checkButtons();
             }
         });
+    }
+
+    private void updatePoints(String id) {
+        if(id.equals("ego")){
+            points++;
+            return;
+        }
+        if(points == 0){
+            return;
+        }
+        points--;
     }
 
     private String findNameByButton(Button clicked) {

@@ -10,7 +10,7 @@ public class Messages {
     public static final String EGO = "ego";
     public static final String ALTEREGO = "alterego";
     public static final String GAME_START = "start";
-    public static  final String START_PRESSED = "startPressed";
+    public static final String START_PRESSED = "startPressed";
     public static final String BUBBLE_REQUEST = "buttonrequest";
 
     public static final String PLAYERS_READY = "playersready";
